@@ -1,12 +1,15 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'; // <-- Import this
 
 export default function ProductPage() {
+  const router = useRouter(); // <-- Initialize router
+
   return (
-    <div className="bg-black min-h-screen  text-white">
-      <div className=' pb-20 pl-10  text-4xl'>
-        <h1 >Silhouette No. 1 – Vermilion</h1>
+    <div className="bg-black min-h-screen text-white">
+      <div className="pb-20 pl-10 text-4xl">
+        <h1>Silhouette No. 1 – Vermilion</h1>
       </div>
       <div className="flex flex-col md:flex-row md:space-x-0 min-h-screen">
         {/* Left: Main Product Image */}
@@ -32,30 +35,11 @@ export default function ProductPage() {
 
             {/* 3 Images in a Row */}
             <div className="flex space-x-3">
-              <div className="w-1/3 aspect-square relative">
-                <Image
-                  src="/girl1.png"
-                  alt="Variant 1"
-                  fill
-                  className="object-cover rounded"
-                />
-              </div>
-              <div className="w-1/3 aspect-square relative">
-                <Image
-                  src="/girl2.png"
-                  alt="Variant 2"
-                  fill
-                  className="object-cover rounded"
-                />
-              </div>
-              <div className="w-1/3 aspect-square relative">
-                <Image
-                  src="/girl3.png"
-                  alt="Variant 3"
-                  fill
-                  className="object-cover rounded"
-                />
-              </div>
+              {['/girl1.png', '/girl2.png', '/girl3.png'].map((src, idx) => (
+                <div key={idx} className="w-1/3 aspect-square relative">
+                  <Image src={src} alt={`Variant ${idx + 1}`} fill className="object-cover rounded" />
+                </div>
+              ))}
             </div>
 
             {/* Price */}
@@ -88,7 +72,10 @@ export default function ProductPage() {
             <button className="flex-1 bg-white border border-black text-black py-3 rounded hover:bg-gray-100 transition">
               Add to Cart
             </button>
-            <button className="flex-1 bg-black text-white py-3 rounded hover:bg-gray-800 transition">
+            <button
+              onClick={() => router.push('/checkout')} // <-- Handle click
+              className="flex-1 bg-black text-white py-3 rounded hover:bg-red-600 transition"
+            >
               Buy Now
             </button>
           </div>
